@@ -1,10 +1,9 @@
 
 | **Abstract** | **Authors**  | **Title** |
 |--|--|--|
-| **Tor is the largest anonymous communication network. Recent papers discuss the vulnerabilities of Tor’s Onion Router design and question the effectiveness of Tor. These vulnerabilities are increasingly exploited by de-anonymizing attacks. Over the years the attacks have grown to be more complex and effective, increasing the need for hybrid attacks that can be deployed at the network layer, protocol layer or application layer. We will discuss published attacks on Tor and categorize them for further analysis. Tor’s principles of freedom and privacy have also introduced some ethical vulnerabilities. The cover that the network provides attracts criminal behavior and has led to a bad reputation. This has caused lawyer-based attacks and adjustments on the fourth amendment to be a point of discussion. Additionally, Tor deals with financial insecurities and a dependency on volunteers. To ensure the continuity of Tor, a dynamic ecosystem should be built around the network by stimulating further development and research in anonymous communication services.**<br> KEYWORDS: *Tor, onion routing, de-anonymization, attacks, vulnerabilities, lawyer-based attack, fourth amendment* | B. Evers, J. Hols, E. Kula, J. Schouten, M. den Toom, R.M. van der Laan,<br> Dr. ir. J.A. Pouwelse (supervisor)<br> Computer Science, Delft University of Technology, The Netherlands | **Thirteen Years of Tor Attacks**|
+| **Tor is the largest anonymous communication network. Recent papers discuss the vulnerabilities of Tor's Onion Router design and question the effectiveness of Tor. These vulnerabilities are increasingly exploited by de-anonymizing attacks. Over the years the attacks have grown to be more complex and effective, increasing the need for hybrid attacks that can be deployed at the network layer, protocol layer or application layer. We will discuss published attacks on Tor and categorize them for further analysis. Tor's principles of freedom and privacy have also introduced some ethical vulnerabilities. The cover that the network provides attracts criminal behavior and has led to a bad reputation. This has caused lawyer-based attacks and adjustments on the fourth amendment to be a point of discussion. Additionally, Tor deals with financial insecurities and a dependency on volunteers. To ensure the continuity of Tor, a dynamic ecosystem should be built around the network by stimulating further development and research in anonymous communication services.**<br> KEYWORDS: *Tor, onion routing, de-anonymization, attacks, vulnerabilities, lawyer-based attack, fourth amendment* | B. Evers, J. Hols, E. Kula, J. Schouten, M. den Toom, R.M. van der Laan,<br> Dr. ir. J.A. Pouwelse (supervisor)<br> Computer Science, Delft University of Technology, The Netherlands | **Thirteen Years of Tor Attacks**|
 
-
-Introduction
+1 - Introduction
 ============
 
 We live in an information age in which any person with an Internet
@@ -29,15 +28,15 @@ of the Tor network is appealing to anyone who wants to protect their
 communications from others, search sensitive topics, avoid surveillance,
 circumvent censorship and protect their privacy from identity thieves
 [[128]](#128). It has become a tool to keep privacy and freedom of expression
-alive in the Information Age [[93]](#93). Despite the Tor Project’s
+alive in the Information Age [[93]](#93). Despite the Tor Project's
 good intentions, it has developed a bad reputation. Just as any large,
 growing city attracts criminals, the growth of Tor and the anonymity it
 provides has made the network a hideaway for illegal activities called
 the Dark Web [[84]](#84). A well-known example of a hidden service
 is Silk Road, a site for selling drugs which was shut down by the FBI in
 2013 [[93]](#93). The administrator Ross Ulbricht was arrested under
-the charges of being the site’s pseudonymous founder “Dread Pirate
-Roberts” and he was sentenced to life in prison [[114]](#114) [[71]](#71).
+the charges of being the site's pseudonymous founder "Dread Pirate
+Roberts" and he was sentenced to life in prison [[114]](#114) [[71]](#71).
 
 The dark side of Tor has drawn the attention from government
 organizations like the NSA and FBI, that consider Tor a target of
@@ -57,7 +56,7 @@ which is based on the idea that any system that relies on distributed
 trust entities can impersonate multiple identities [[87]](#87)
 [[82]](#82). This involved adding about 115 subverted
 computer servers to Tor and ensuring they became used as entry guard
-[[8]](#8). The servers took over more than 6% of the network’s guard
+[[8]](#8). The servers took over more than 6% of the network's guard
 capacity [[69]](#69). This attack caused a big stir in the Tor network
 since the information obtained by the adversary was enough to link some
 users to specific hidden sites [[8]](#8).
@@ -67,7 +66,7 @@ security of Tor. The fact that Tor is not 100 percent anonymous is no
 shocker, but it might be far less secure than most people believe. We
 will analyze the technical, ethical and financial vulnerabilities of the
 deployed Tor network. In the first part of this survey we will have a
-look at Tor’s network design and communication protocols. Then we will
+look at Tor's network design and communication protocols. Then we will
 discuss the attacks on Tor that are currently known and make an effort
 to categorize them for further analysis. This will be concluded with a
 section on the way Tor can detect attacks more quickly and how it should
@@ -76,10 +75,10 @@ this survey we will have a look at the ethical concerns surrounding Tor.
 We will focus on the ethical issues around the misuse of Tor for a wide
 range of criminal use and illegal content. In the last section we will
 discuss the financial insecurities of Tor and the dependence of the
-network’s continuity on financial and non-financial volunteers.
+network's continuity on financial and non-financial volunteers.
 
 Section 2 presents a high-level overview of the Tor network design and
-highlights a number of vulnerabilities that are embedded into Tor’s
+highlights a number of vulnerabilities that are embedded into Tor's
 protocol. Section 3 analyzes these weaknesses and presents them in a
 threat model. Section 4 gives an overview of Tor attacks that are
 published, where each attack is categorized based on assumed goal.
@@ -90,14 +89,15 @@ number of ethical vulnerabilities in Tor. We discuss the implications of
 the Dark Web on Tor. Section 8 analyzes the financial vulnerabilities
 and continuous resource starvation of Tor.
 
-The Onion Router
+2 - The Onion Router
 ================
 
 The Tor network is based on a low-latency onion-routing design, where
-traffic is forwarded through randomly selected Onion Routers (ORs), 
+traffic is forwarded through randomly selected Onion Routers (ORs),
 wrapping data in multiple layers of encryption (onion skins) to maintain unlinkability
 [[95]](#95). An OR is also called a *relay*, *node* or simply a router
-in this context. Each stream can be anonymously channeled through the
+in this context. Each Transmission Control Protocol (TCP) stream can be
+anonymously channeled through the
 network in a *telescoping fashion*, meaning that each router only knows
 the previous and the next relay in the path [[87]](#87). Only the
 first relay, the *entry node*, knows the source of the stream. The last
@@ -108,24 +108,24 @@ cryptography and a relay unwraps one layer of encryption and forwards
 the message to the next relay in the circuit [[104]](#104). A
 circuit usually consists of three relays.
 
-![Overview of Tor’s Onion Routing Design](https://user-images.githubusercontent.com/5946444/68077012-b42c6c80-fdbc-11e9-8f1d-f56b8475ff21.png)
+<a id="figure.1">![Overview of Tor's Onion Routing Design](https://user-images.githubusercontent.com/5946444/68077012-b42c6c80-fdbc-11e9-8f1d-f56b8475ff21.png)</a>
 
-*Overview of Tor’s Onion Routing Design*
+*Figure 1: Overview of Tor's Onion Routing Design*
 
-Tor Protocol
+2.1 - Tor Protocol
 ------------
 
-A list of trusted and available is advertised on central servers, which
-are called . Furthermore, all relays maintain a connection to every
-other relay [[40]](#40).
+A list of trusted and available ORs is advertised on central servers, which
+are called Directory Server (DS). Furthermore, all relays maintain a
+Transport Layer Security (TLS) connection to every other relay [[40]](#40).
 
 A user that wants to connect to the Tor network can use a Tor Bundle.
 This package contains all necessary components to access the Tor
 network. A client can connect to the Tor network using an Onion Proxy (OP) [[39]](#39),
-which uses the SOCKS protocol [[73]](#73) to tunnel the client’s TCP
-connections through the Tor network. The streams of the client are sent
+which uses the SOCKS protocol [[73]](#73) to tunnel the client's TCP
+connections through the Tor network. The TCP streams of the client are sent
 over the Tor network through *circuits*. Whenever a client wants to
-create a circuit they can choose a list of and incrementally build a
+create a circuit they can choose a list of ORs and incrementally build a
 circuit along all those relays. The first relay in the list, the entry
 node, is contacted and a session key is negotiated. The second relay in
 the list is contacted via the first relay and the client and the second
@@ -148,85 +148,84 @@ client is able to peel off all encryption layers.
 Since all relays are listed in the directory servers, access to Tor can
 easily be blocked by blocking the IP-addresses of all relays. To give
 access to the Tor network even if all relays are blocked, *bridges* are
-introduced [[85]](#85). A bridge is an that is not listed in the
+introduced [[85]](#85). A bridge is an OR that is not listed in the
 directory servers. A Bridge Authority lists all bridges. The Bridge
-Authority limits access to the bridges’ information to prevent the
+Authority limits access to the bridges' information to prevent the
 bridges from being blocked.
 
-![Circuit creation](https://user-images.githubusercontent.com/5946444/68077044-3ae14980-fdbd-11e9-8689-c561af325060.png)
+<a id="figure.2">![Circuit creation](https://user-images.githubusercontent.com/5946444/68077044-3ae14980-fdbd-11e9-8689-c561af325060.png)</a>
 
-*Circuit creation*
+*Figure 2: Circuit creation [[142]](#142)*
 
-![A normal setup of hidden service communication in Tor](https://user-images.githubusercontent.com/5946444/68077048-5f3d2600-fdbd-11e9-9bdd-63ff1e299e21.png)
+<a id="figure.3">![A normal setup of hidden service communication in Tor](https://user-images.githubusercontent.com/5946444/68077048-5f3d2600-fdbd-11e9-9bdd-63ff1e299e21.png)</a>
 
-*A normal setup of hidden service communication in Tor*
+*Figure 3: A normal setup of hidden service communication in Tor [[95]](#95)*
 
-Hidden Service Protocol
+2.2 - Hidden Service Protocol
 -----------------------
 
-A is a network service for which the location of its servers are hidden
-by the Tor network. In order to connect to a , two relays are selected
-to perform a special task [[97]](#97). The ** is a relay that
-is tracked by the hidden server for connections to the . The ** is a
-relay that is known to the as well as to the client. The details of the
+A Hidden Service (HS) is a network service for which the location of its servers are hidden
+by the Tor network. In order to connect to a HS, two relays are selected
+to perform a special task [[97]](#97). The *Introduction Point* is a relay that
+is tracked by the hidden server for connections to the HS. The *Rendezvous Point* (RP) is a
+relay that is known to the HS as well as to the client. The details of the
 basic architecture and the entities can be found in the original paper
-[[39]](#39) as well as on the Tor website [[39]](#39)2.
+[[39]](#39) as well as on the Tor website [[129]](#129).
 
 A normal arrangement of communication when a client wants to access a
-resource offered by a hidden server is shown in Figure
-\[img:hiddenservice\].
+resource offered by a hidden server is shown in Figure [3](#figure.3).
 
 First the Hidden Server connects (1) to a relay in the Tor network and
-asks whether it wants to act as an for his service [[95]](#95). If
-the relay allows this, the circuit is kept open. Otherwise, the tries
-another relay until it found an . The connections are kept open, until
+asks whether it wants to act as an IP for his service [[95]](#95). If
+the relay allows this, the circuit is kept open. Otherwise, the HS tries
+another relay until it found an IP. The connections are kept open, until
 one of the nodes restarts or decides to take it down [[2]](#2). There
 can be multiple IPs per service [[95]](#95).
 
 Then the Hidden Server contacts (2) the Hidden Servers Directory Servers
-and requests it to publish the contact information of its , including
-its s [[95]](#95). The is now available to receive connection
+and requests it to publish the contact information of its HS, including
+its IPs [[95]](#95). The HS is now available to receive connection
 requests from clients.
 
-In order to use a the client contacts (3) a Hidden Servers Directory
-Server requesting the address of an of the , which acts a mediator for
+In order to use a HS the client contacts (3) a Hidden Servers Directory
+Server requesting the address of an IP of the HS, which acts a mediator for
 initial setup [[88]](#88).
 
-Then the client selects a relay in the network as a , connects (4) to it
-and asks it to listen for connections from a [[95]](#95). The
-clients retries this until a has accepted and then contacts (5) the to
-request for information about the selected [[4]](#4).
+Then the client selects a relay in the network as a RP, connects (4) to it
+and asks it to listen for connections from a HS [[95]](#95). The
+clients retries this until a RP has accepted and then contacts (5) the IP to
+request for information about the selected RP [[4]](#4).
 
-The sends (6) the request to the which determines whether to connect to
-the or not [[95]](#95). If everything is okay, the connects (7) to
-the and requests to be connected to the rendezvous circuit
-[[95]](#95). The then advances (8) this connection request to the
-client. Now the can start handing over (9) data between the client and
-the [[88]](#88). The result is an anonymous data link from the client
-to the Hidden Server through the . All message-flows between these nodes
+The IP sends (6) the request to the HS which determines whether to connect to
+the RP or not [[95]](#95). If everything is okay, the HS connects (7) to
+the RP and requests to be connected to the rendezvous circuit
+[[95]](#95). The RP then advances (8) this connection request to the
+client. Now the RP can start handing over (9) data between the client and
+the HS [[88]](#88). The result is an anonymous data link from the client
+to the Hidden Server through the RP. All message-flows between these nodes
 are routed through at least two or more anonymizing relays on their path
 towards their destination [[88]](#88).
 
-From the description of the communication between a client and we can
+From the description of the communication between a client and HS we can
 make the following observations [[95]](#95):
 
--   The client does not know the location of the Hidden Server, but
-    knows the location of the .
+- The client does not know the location of the Hidden Server, but
+  knows the location of the RP.
 
--   The does not know the location of the client, but knows the location
-    of the .
+- The HS does not know the location of the client, but knows the location
+  of the RP.
 
--   The does not know the location of the client and the , and also does
-    not know the content of the service he is offering and the messages
-    transmitted through him.
+- The RP does not know the location of the client and the HS, and also does
+  not know the content of the service he is offering and the messages
+  transmitted through him.
 
--   There are at least two or more anonymizing nodes between the and the
-    and between the client and the .
+- There are at least two or more anonymizing nodes between the HS and the RP
+  and between the client and the RP.
 
--   Any node of the network which claims to offer stability can be used
-    by the to form an anonymous link to the .
+- Any node of the network which claims to offer stability can be used
+  by the HS to form an anonymous link to the RP.
 
-Threat Model
+3 - Threat Model
 ============
 
 Most attacks on Tor focus on identifying a relationship between a client
@@ -236,13 +235,13 @@ and a server that are using the Tor network to communicate
 an exit node and the exit node communicates with the server. The
 attacker wants to confirm that the client and the server are
 communicating and wants to link a pseudonym (under which a hidden
-service is being offered) to the operator’s real identity, either
+service is being offered) to the operator's real identity, either
 directly or through some intermediate step (e.g. a physical location or
 IP address) [[101]](#101) [[88]](#88).
 
 The most commonly assumed threat is based on a passive adversary that
 can observe part of the Tor network and is able to compromise and
-operate his own onion routers [[108]](#108)[[88]](#88). Such an
+operate his own onion routers [[108]](#108) [[88]](#88). Such an
 attacker simply observes inputs and outputs of the network and
 correlates their patterns, so called *traffic analysis* [[88]](#88).
 The attacker tries to measure similarities in the traffic that the
@@ -255,7 +254,7 @@ the network a traffic pattern based attack should be executed. By making
 it difficult for an attacker to determine where to attack, a precision
 attack is difficult [[108]](#108).
 
-An active adversary is also a common assumption in Tor’s threat model
+An active adversary is also a common assumption in Tor's threat model
 [[41]](#41). Such an attacker guesses who is communicating with
 whom and can analyze individual network links in order to validate this
 suspicion [[88]](#88). They have the ability to inject, delete or
@@ -269,63 +268,62 @@ In systems like Tor, which is run by volunteers under limited control,
 it is also a valid concern that an attacker controls a part of the
 anonymity network [[88]](#88). However, it is unrealistic that such a
 person controls all of the nodes [[87]](#87). Therefore this type of
-attacks is not in the focus of Tor’s threat model [[108]](#108). The
+attacks is not in the focus of Tor's threat model [[108]](#108). The
 Tor developers are careful, but they still warn their users against
 using Tor in crucial situations through an announcement upon startup of
-the Tor client: “This is experimental software. Do not rely on it for
-strong anonymity.” [[95]](#95)
+the Tor client: "This is experimental software. Do not rely on it for
+strong anonymity." [[95]](#95)
 
-Categories of De-Anonymizing Techniques and Attacks
+3.1 - Categories of De-Anonymizing Techniques and Attacks
 ---------------------------------------------------
 
 According to existing de-anonymizing techniques on the Tor network, we
 can sort these techniques into two groups from two different
 perspectives [[148]](#148):
 
--   **Passive and active attacks** The adversary can passively observe
-    the network’s traffic or actively manipulate traffic.
+- **Passive and active attacks** The adversary can passively observe
+  the network's traffic or actively manipulate traffic.
 
--   **Single-end and end-to-end attacks** The attacker can impose the
-    network’s anonymity by monitoring or controlling Tor circuits at
-    either the enter relay or exit relay side, or at both edges of
-    the circuit.
+- **Single-end and end-to-end attacks** The attacker can impose the
+  network's anonymity by monitoring or controlling Tor circuits at
+  either the enter relay or exit relay side, or at both edges of
+  the circuit.
 
 Based on their method and goal, attacks can be categorized into seven
 groups:
 
--   **Correlation Attacks** End-to-end Passive Attack
+- **Correlation Attacks** End-to-end Passive Attack
 
--   **Congestion Attacks** End-to-end Active Attack
+- **Congestion Attacks** End-to-end Active Attack
 
--   **Timing Attacks** End-to-end Active Attack
+- **Timing Attacks** End-to-end Active Attack
 
--   **Fingerprinting Attacks** Single-end Passive Attack
-    [[38]](#38)
+- **Fingerprinting Attacks** Single-end Passive Attack [[38]](#38)
 
--   **Denial of Service Attacks** Single-end Active Attack
+- **Denial of Service Attacks** Single-end Active Attack
 
--   **Supportive Attacks** Not classified
+- **Supportive Attacks** Not classified
 
--   **Revealing Hidden Services Attacks** Not classified
+- **Revealing Hidden Services Attacks** Not classified
 
-In this case, the label ’not classified’ means that the attacks that
+In this case, the label 'not classified' means that the attacks that
 belong to the corresponding category often combine both types of
 techniques.
 
 In the following, we give you an overview of attacks on Tor that have
-been published and discuss them. In Table \[tab:torattacks\] all attacks
-are listed in chronological order. Figure \[fig:M1\] shows a mind map
+been published and discuss them. In Table [1](#table.1) all attacks
+are listed in chronological order. Figure [4](#figure.4) shows a mind map
 that contains the attacks related to their category.
 
-![Thirteen years of Tor attacks - timeline](https://user-images.githubusercontent.com/5946444/68077165-37e75880-fdbf-11e9-9386-b020f886d96e.png)
+<a id="table.1">![Thirteen years of Tor attacks - timeline](https://user-images.githubusercontent.com/5946444/68077165-37e75880-fdbf-11e9-9386-b020f886d96e.png)</a>
 
-*Thirteen years of Tor attacks - timeline*
+*Table 1: Thirteen years of Tor attacks - timeline*
 
-![A mindmap that contains all important attacks on the Tor network that are published](https://user-images.githubusercontent.com/5946444/68077066-af1bed00-fdbd-11e9-8bb5-114bb1858711.png)
+<a id="figure.4">![A mindmap that contains all important attacks on the Tor network that are published](https://user-images.githubusercontent.com/5946444/68077066-af1bed00-fdbd-11e9-8bb5-114bb1858711.png)</a>
 
-*A mindmap that contains all important attacks on the Tor network that are published.*
+*Figure 4: A mindmap that contains all important attacks on the Tor network that are published.*
 
-Attacks on Tor
+4 - Attacks on Tor
 ==============
 
 Extensive research is done into the vulnerabilities of Tor. In this
@@ -333,12 +331,12 @@ section we discuss a number of attacks on Tor that have been published.
 There is a lot of interest in attacks on Tor. For example, there are
 rumors that the FBI paid the Carnegie Mellon University (CMU) to develop
 an attack against the Tor network [[7]](#7). Payment from the FBI to the CMU
-has, however, been denied by the CMU [[7]](#7)1. The attack developed by the
+has, however, been denied by the CMU [[56]](#56). The attack developed by the
 CMU was the relay early traffic confirmation attack [[7]](#7). This attack
 will be explained first in this section, followed by other recent or
 important attacks.
 
-Correlation Attacks
+4.1 - Correlation Attacks
 -------------------
 
 Correlation attacks are well-known de-anonymization attacks. In this
@@ -358,8 +356,8 @@ this attack was actually performed on the real Tor network. Measures
 against the attackers have been taken.
 
 This attack is a combination of a correlation attack and the Sybil
-attack. The Sybil attack is explained in Section \[sub:sybil\]. The
-Sybil attack was used by the malicious s to become an entry guard and a
+attack. The Sybil attack is explained in Section [4.6](#the-sybil-attack). The
+Sybil attack was used by the malicious ORs to become an entry guard and a
 hidden service directory. Then a correlation attack is executed to
 confirm the relation between a client and a hidden service.
 
@@ -388,7 +386,8 @@ selected cell should therefore be a relay cell. The attacker can detect
 relay cells at the exit node, which he also controls, and notifies the
 entry node.
 
-Each Tor layer is encrypted with in counter mode. The duplicated cell
+Each Tor layer is encrypted with Advanved Encryption Standard (AES)
+in counter mode. The duplicated cell
 causes the encryption and decryption counters to go out of sync,
 resulting in decryption errors. The adversary can detect these
 decryption errors at the exit node. To confirm that the error is caused
@@ -411,8 +410,8 @@ Traffic is sent via cells, which are stored temporarily in a queue, then
 flushed to the output buffer before entering the network [[79]](#79).
 A signal can be embedded in the traffic by manipulating the cell counter
 of the output buffer (the amount of cells flushed from the queue to the
-buffer). For example, three cells means “1” and one cell means “0”. The
-timing between sending each ’symbol’ should be carefully chosen, since
+buffer). For example, three cells means "1" and one cell means "0". The
+timing between sending each 'symbol' should be carefully chosen, since
 waiting too short will cause cells to be combined by other relays in the
 circuit and waiting too long may look suspicious and will increase the
 latency which may cause the user to create a new circuit.
@@ -425,9 +424,9 @@ relay. An advanced recovery mechanism was developed to recover these
 distorted signals by analyzing the types of combinations and divisions
 of cells.
 
-![Workflow of Cell Counter Based Attack](https://user-images.githubusercontent.com/5946444/68077082-03bf6800-fdbe-11e9-9edc-101b35675281.png)
+<a id="figure.5">![Workflow of Cell Counter Based Attack](https://user-images.githubusercontent.com/5946444/68077082-03bf6800-fdbe-11e9-9edc-101b35675281.png)</a>
 
-*Workflow of Cell Counter Based Attack.*
+*Figure 5: Workflow of Cell Counter Based Attack [[118]](#118)*
 
 This attack is very difficult to detect since the signal can be very
 short and can have many different properties, which makes it difficult
@@ -484,7 +483,7 @@ time-out interval are the elements of the vector.
 Third, the distance between the input stream and all the output links is
 calculated using the pattern vectors. Zhu et al. propose two measures
 for doing this. The first one is mutual information, which Zhu et al.
-proposed in [[153]](#153)2. The second one is frequency analysis.
+proposed in [[152]](#153). The second one is frequency analysis.
 
 Fourth and last, the output link which has the minimum distance to the
 known input stream is selected as the output link that corresponds to
@@ -499,8 +498,8 @@ percent. This is still true when a lot of cross traffic is present.
 
 In 2007, Wang et al. [[139]](#139) described an attack in which
 packet streams were also compared based on the inter-arrival times of
-packets. As opposed to the attack by Zhu et al., they use an “Interval
-Centroid Based Watermarking Scheme” to influence the inter-arrival times
+packets. As opposed to the attack by Zhu et al., they use an "Interval
+Centroid Based Watermarking Scheme" to influence the inter-arrival times
 of packets themselves, instead of only recording the inter-arrival
 times. In this sense, the attack by Wang et al. could be classified as
 active.
@@ -524,12 +523,12 @@ chance to select 2 malicious nodes.
 
 The malicious routers log enough information to correlate client request
 to server responses. They implemented a circuit linking algorithm that
-recognizes a circuit request from a Tor proxy. This is were this attack
+recognizes a circuit request from a Tor proxy. This is where this attack
 differs from others as it is able to compromise anonymity of a Tor Route
 before the client starts to transmit any payload data. The researcher
 validated the attack using an experiment on a realistic test environment
 network. From the results it is estimated that by contributing less than
-1% of the network’s aggregate bandwidth they are able to compromise up
+1% of the network's aggregate bandwidth they are able to compromise up
 to 46% of the circuit-building requests for new Tor proxies.
 
 In the paper it is mentioned that the attack can be extended to existing
@@ -553,22 +552,22 @@ is not specific to web browsing on Tor but rather to the problem of low
 latency applications based on TCP streams. They assume the attacker can
 control multiple routers, the entry and the exit router of the circuit.
 This is possible since Tor is operated in a voluntary manner. They make
-use of HTTP’s vulnerability to man-in-the-middle attacks.
+use of HTTP's vulnerability to man-in-the-middle attacks.
 
 By exaggerating about the resource claims of their routers they can make
 it likely for a client to select their entry and exit router in a
 circuit. If the client then issues a HTTP request they can apply their
 forged web page attack or a targeted web page modification attack. The
-idea is to let a client’s browser initiate malicious web connections to
+idea is to let a client's browser initiate malicious web connections to
 generate a distinctive traffic pattern. This pattern can then be
-detected by the entry router to expose the client’s identity. They also
+detected by the entry router to expose the client's identity. They also
 mention that the requirement of a malicious entry router is not
 necessary in the attack if an adversary can sniff the packets
 transmitted via the link between the client and the entry router.
 
-![Forged webpage injection attack](https://user-images.githubusercontent.com/5946444/68077092-2487bd80-fdbe-11e9-9f81-77391bc9076f.jpg)
+<a id="figure.6">![Forged webpage injection attack](https://user-images.githubusercontent.com/5946444/68077092-2487bd80-fdbe-11e9-9f81-77391bc9076f.jpg)</a>
 
-*Forged webpage injection attack.*
+*Figure 6: Forged webpage injection attack [[138]](#138)*
 
 As countermeasures they mention minimizing the chance of choosing
 malicious routers in a circuit. This can be done by increasing the total
@@ -595,7 +594,8 @@ It is worth noting and also strange that the article from Wang et al.
 published in 2011 [[138]](#138) does not reference the article from
 Wang et al. published in 2009 [[137]](#137). In other words, a very
 large part of the 2009 article [[137]](#137) has been copied over to
-the 2011 article [[138]](#138) without reference.\
+the 2011 article [[138]](#138) without reference.
+
 A paper released in 2015 by Arp et al. [[9]](#9) describes a
 similar attack to that of Wang et al. [[137]](#137). The biggest
 difference is in the way of providing web content to users. Where Wang
@@ -612,7 +612,8 @@ to achieve this.
 A paper released in 2007 by Abbot et al. [[1]](#1) also
 describes a very similar attack against Tor. It exploits the same flaws
 as Wang et al. did in 2011, such as a HTTP man-in-the-middle attack
-using an malicious exit node to insert javascript code .\
+using a malicious exit node to insert javascript code.
+
 The use of man in the middle attacks to the HTTP protocol is used quite
 often and can be quite a powerful attack technique. A paper by Chaabane
 et al. from 2010 [[24]](#24) uses the flaw to rewrite HTTP
@@ -623,16 +624,16 @@ of encrypted BitTorrent traffic on the Tor network.
 #### Bad Apple Attack
 
 The Bad Apple Attack introduced in [[21]](#21) is another
-application-level attack. This attacks requires a malicious application
-that is installed on the client’s computer, to retrieve the IP-address
+application-level attack. This attack requires a malicious application
+that is installed on the client's computer, to retrieve the IP-address
 of the user. This application should also use Tor to communicate. How
 the IP-address of the client is retrieved is not Tor specific and
 therefore will not be discussed in detail in this paper. The malicious
-application can just send it’s IP-Address via the Tor network to a
+application can just send its IP-Address via the Tor network to a
 malicious server, for example.
 
 To correlate traffic from the malicious application with other traffic
-the attacker should be able to observers the exit nodes of the client’s
+the attacker should be able to observe the exit nodes of the client's
 circuits. Since Tor combines multiple streams, possibly from different
 applications, in one circuit the exit node can correlate traffic from
 the malicious application with other network traffic. For example, if
@@ -651,7 +652,7 @@ probability over all scenarios of interest, whereas most attacks without
 a probabilistic component only provide the most probable solution. It
 also means that these models are not concerned with traffic analysis
 techniques, but effectively assume that the traffic analysis is done.
-The adversary already has a correct distribution of a user’s behavior
+The adversary already has a correct distribution of a user's behavior
 and communication partners. Most probabilistic models are still research
 based and have not been deployed to actually attack Tor.
 
@@ -667,7 +668,7 @@ complements incomplete observations, erratic users and social network
 information [[108]](#108). In the end it comes down to calculating an
 a-posterior distribution $Pr[HS | O, C]$ of a set of hidden state user
 variables $HS$ given an observation $O$ and a set of constraints $C$
-based on the user’s choice of mixes to relay messages and the user’s
+based on the user's choice of mixes to relay messages and the user's
 behavior. However, it is computationally unfeasible to calculate this
 distribution since the number of possible hidden states is very large.
 Therefore sample sets $HS_0, ..., HS_n \sim Pr[HS | O, C]$ are used to
@@ -717,7 +718,7 @@ The attacker observes a sequence of vectors
 $\vec{o}_1^t, ..., \vec{o}_t^t$ expressing the recipient anonymity sets
 observed in the $t$ messages sent by Alice. Each $\vec{o}_i^t$
 represents the probability distribution assigning potential recipients
-to Alice’s message during round $i$. Using this sequence, the batch size
+to Alice's message during round $i$. Using this sequence, the batch size
 $b$ of the mix and the model $\vec{u}^t$ of other senders the attacker
 can infer $\vec{v}^t$ and can find an indication on the communication
 partners of Alice as following:
@@ -750,7 +751,7 @@ is able to link network traffic to a user if the input and output are
 both observable. The mathematical model indicates that user anonymity is
 worst either when the user shows unique behavior by choosing a
 destination node other users are unlikely to choose or when other users
-always visit the user’s actual destination. Which case is worse depends
+always visit the user's actual destination. Which case is worse depends
 on how likely the user was to visit his destination in the first place.
 This worst-case anonymity with an attacker that observes a fraction $b$
 of the network is comparable to the best case anonymity against an
@@ -758,7 +759,7 @@ attacker that observes a fraction $\sqrt{b}$. In case of common behavior
 and group joining decisions the anonymity can be kept as the best
 possible. Feigenbaum expects future research in probabilistic models to
 focus more on detailed design decisions, such as the impact of entry
-guards on Tor’s anonymity.
+guards on Tor's anonymity.
 
 #### Raptor Attack
 
@@ -774,7 +775,7 @@ client and server can be de-anonymized as long as the attacker can
 observe incoming or outgoing traffic at both the client and the server.
 Sequence numbers of data packets and/or sequence numbers of
 acknowledgments can be correlated. This is possible because the TCP
-headers of the packets are not encrypted at both ends of the client’s
+headers of the packets are not encrypted at both ends of the client's
 circuit, and therefore are visible when intercepted by the malicious AS.
 Asymmetric traffic analysis can be advantageous, because the incoming
 and outgoing traffic between the client and the entry node or between
@@ -800,7 +801,7 @@ In a BGP interception attack the malicious AS also advertises an IP
 prefix that does not belong to that AS. The intercepted traffic is
 analyzed and then forwarded to the actual destination. BGP Interception
 might be useful to relate the client with the entry node, when the entry
-node is known. Paragraph \[sec:congestionattack\] describes an attack to
+node is known. Paragraph [4.2](#a-practical-congestion-attack) describes an attack to
 retrieve the entry node of a circuit. BGP Interception might then be
 used with an IP prefix of the entry node to find all the IP addresses
 that communicate with the entry node. Asymmetric traffic analysis can
@@ -812,10 +813,10 @@ A realistic comprehensive analysis was done of the security of Tor
 against traffic analysis by Johnson et al. [[66]](#66) for a more
 generalized attack. It focused on how to make Tor safer for its users,
 and showed that there are greater risks than previous studies suggested.
-It discusses how Tor’s security can be improved and how users themselves
+It discusses how Tor's security can be improved and how users themselves
 can increase their security against this kind of attack.
 
-Congestion Attacks
+4.2 - Congestion Attacks
 ------------------
 
 In a congestion attack an adversary tries to determine the identities of
@@ -829,7 +830,7 @@ down. Another method is to inject a script that will periodically
 perform HTTP requests and start congesting relays until the request
 frequency decreases.
 
-#### Congestion Attack by Modulating Traffic {#sub:modulating}
+#### Congestion Attack by Modulating Traffic
 
 Not long after the introduction of Tor, Murdoch et al. [[89]](#89)
 introduced a traffic-analysis attack with the goal of uncovering the
@@ -855,7 +856,7 @@ HTTP traffic. When the client has connected to the corrupted server, the
 server will send modulated traffic to the client (i.e., it will send the
 traffic using a specific pattern).
 
-Then the adversary’s corrupt ORs will come into play. Each of the ORs
+Then the adversary's corrupt ORs will come into play. Each of the ORs
 will subsequently make connections through legitimate ORs in order to
 check if they are on the path from the target client to the corrupt
 server. This check consists of filling the connection through the legit
@@ -890,18 +891,18 @@ building a circuit decreases.
 This attack is used to discover the bridge a client is using in
 [[85]](#85).
 
-#### A Practical Congestion Attack {#sec:congestionattack}
+#### A Practical Congestion Attack
 
 In 2009 a practical congestion attack on the Tor network was introduced
 [[46]](#46). This attack improves the congestion attack
-introduced in Paragraph \[sub:modulating\] published in [[89]](#89),
+introduced in Paragraph [4.2](#congestion-attack-by-modulating-traffic) published in [[89]](#89),
 which is no longer reliable because of the growth of the Tor network.
 
 The aim of the attack is to confirm that a node, the entry node,
 participates in the circuit from the client to the exit node. Assumed is
 that the attacker controls the exit node. The first step of this attack
 is to inject some JavaScript code into a HTML response at the exit node.
-This JavaScript code causes the user’s browser to send an HTTP request
+This JavaScript code causes the user's browser to send an HTTP request
 at regular intervals of 1 second. The HTTP requests contain the time the
 request was send, so that the attacker at the exit node can correlate
 the difference in arrival time of the requests, with the difference in
@@ -930,10 +931,10 @@ will experience delay due to the congestion, which can be measured at
 the exit node. The exit node will find out that the latency of the
 circuit varies more. By repeating the process of measuring the average
 latency and then introduce congestion to measure whether the latency
-varies more, several times, the attacker’s confidence that the entry
+varies more, several times, the attacker's confidence that the entry
 node participates in the circuit increases.
 
-Timing Attack
+4.3 - Timing Attack
 -------------
 
 Timing attacks are another form of de-anonymizing attacks. During a
@@ -1103,7 +1104,7 @@ connection in order to identify that connection later. Wang et al. try
 to influence the packet inter-arrival times instead of the bandwidth of
 the connection.
 
-Fingerprinting Attack
+4.4 - Fingerprinting Attack
 ---------------------
 
 In a fingerprinting attack an adversary utilizes the fact that traffic
@@ -1115,7 +1116,7 @@ path along which traffic is traveling through the network.
 ##### Website fingerprinting
 
 In 2009 an attack on the anonymity of Tor users was published that uses
-an adversary that monitors the victim’s browsing behavior
+an adversary that monitors the victim's browsing behavior
 [[113]](#113). This attack is a realistic threat since it
 requires only the entry point of the victim to be occupied and
 furthermore it requires very few resources.
@@ -1131,10 +1132,10 @@ different files sizes. Therefore, the set of file sizes of a certain
 webpage creates a fingerprint that can be used to identify this webpage.
 The attacker will first build a collection of fingerprints of webpages.
 Next, he can compare the recorded fingerprint against his fingerprint
-collection which enables him to monitor the user’s browsing behaviour.
+collection which enables him to monitor the user's browsing behaviour.
 
 This attack was first designed against SafeWeb [[61]](#61),
-but can also be used against Tor. However, Tor’s design employs two
+but can also be used against Tor. However, Tor's design employs two
 significant characteristics which prevents the fingerprinting attack to
 some extend.
 
@@ -1150,8 +1151,8 @@ solution for distinguishing the files is to count the number of incoming
 packets between 2 out flowing packets. The more packets are received in
 between 2 out flowing packets, the larger the file is assumed to be. The
 fingerprint can now be represented by a vector $V = (v_1,v_2,...,v_n)$
-where $v_i$ means “the number of occurrences of $i$ subsequent incoming
-packets”. For stable network conditions, webpages with different files
+where $v_i$ means "the number of occurrences of $i$ subsequent incoming
+packets". For stable network conditions, webpages with different files
 and loading process can be distinguished by using for instance the
 jaccard or cosine similarity between two fingerprint vectors
 [[77]](#77).
@@ -1188,7 +1189,7 @@ have the characteristic that the throughput of those streams repeatedly
 drop to zero during mutually exclusive periods of time, resulting into a
 strong negative correlation [[86]](#86).
 
-DoS Attacks
+4.5 - DoS Attacks
 -----------
 
 Denial of Service (DoS) attacks are not used to de-anonymize users, but
@@ -1249,12 +1250,12 @@ In 2014 a novel and destructive DoS attack against Tor that can be used
 to anonymously disable arbitrary Tor relays was published
 [[65]](#65). Since the attacker remains hidden while
 disabling relays in a targeted manner, the attack is called the Sniper
-Attack. This attack works by utilizing Tor’s application level
+Attack. This attack works by utilizing Tor's application level
 congestion and flow control mechanisms to cause a target relay to buffer
 a large amount of data in application queues.
 
 To understand the principles of the attack, it is important to know the
-working of Tor’s level congestion and flow control mechanisms. Tor
+working of Tor's level congestion and flow control mechanisms. Tor
 implements an end-to-end sliding window mechanism to control the amount
 of data directed into the network. The exit relay manages a package
 window counter for each out flowing stream initiated at 500 and a total
@@ -1280,12 +1281,12 @@ by creating a circuit that uses the target node as the circuit entry,
 and initiates the download of two very large files over the circuit.
 This will result into two streams which can together cause the exit
 relay to inject up to the 1000 package window limit. By sending SENDME
-cells to the exit node, the attacker ensures that the exit’s package
+cells to the exit node, the attacker ensures that the exit's package
 windows does not reach zero and it continues to inject packages into the
 circuit. However the attacker never reads the cells that arrive at the
 entry node, the target of the attack. Therefore, cells will continue to
 flow to and be buffered by the entry node in its application queue,
-until the entry’s Tor process is killed by the OS due to the process
+until the entry's Tor process is killed by the OS due to the process
 consuming too much memory.
 
 #### CellFlood Attack
@@ -1310,7 +1311,7 @@ to introduce a client to the hidden service. The list of introduction
 points associated with a certain hidden service is stored on Hidden
 Service Directory Servers (HSDirs). Therefore, HSDir servers are in a
 position to make a hidden service unreachable by refusing to answer a
-client’s request to receive the list of introduction points
+client's request to receive the list of introduction points
 [[19]](#19). However, an attacker needs to control multiple
 HSDir servers in order to stop clients from creating connections to the
 hidden service completely. Another way to impede anyone of creating a
@@ -1337,7 +1338,7 @@ traffic. It might be very difficult to detect a DoS attack on supernodes
 if the strength of the attack is gradually increased, a so called loop
 attack [[75]](#75).
 
-Supportive Attacks
+4.6 - Supportive Attacks
 ------------------
 
 In this section we describe a number of attacks that do not directly aim
@@ -1345,7 +1346,7 @@ to de-anonymize Tor users or disrupt the Tor network but rather are
 helpful to perform a de-anonymization attack or a disruptive attack at a
 later point in time.
 
-#### Influencing Tor’s Guard Selection
+#### Influencing Tor's Guard Selection
 
 Most attacks on Tor are traffic correlation attacks, where both the
 entry node and the exit node are required to perform the attack, it can
@@ -1364,12 +1365,12 @@ the time interval between guard selection rounds [[76]](#76).
 Assumed is that the attacker controls multiple guard nodes. The attacker
 should also be able to identify and manipulate Tor traffic between the
 client and an entry node. Identifying Tor traffic can be done by an AS
-using the method described in Paragraph \[sub:distinguished\].
+using the method described in Paragraph [4.6](#packet-size-analysis-attack).
 
 By analyzing the entry nodes the client connects to, the attacker is
 able to get the clients guard list. The attacker blocks Tor traffic from
 the client to all guard nodes except for one. Leaving one guard node
-reachable makes sure that the client’s communications are not disturbed.
+reachable makes sure that the client's communications are not disturbed.
 Since a new guard selection round is performed when less than 2 guards
 are online [[45]](#45), blocking all guard nodes except for one
 results in a new guard selection round. This is an opportunity for one
@@ -1379,9 +1380,9 @@ list. Experiments confirm that in 80% of the cases a malicious guard
 node is included in the guard list within 20 guard selection rounds.
 Experiments also show that this attack forces an new guard selection
 round every 1.5 minutes. This would include a malicious guard node into
-the client’s guard list within 30 minutes.
+the client's guard list within 30 minutes.
 
-#### The Sybil attack {#sub:sybil}
+#### The Sybil attack
 
 In June 2010, the number of active Tor relays suddenly increased in a
 matter of hours. It turned out that somebody set up several hundred Tor
@@ -1421,9 +1422,9 @@ and appear similarly, there are some heuristics that can be used to
 detect a Sybil attack to some extends. Relays that are part of a Sybil
 attack often join and leave the network simultaneously, they have common
 configuration parameters, and may frequently change their identity
-fingerprint to manipulate Tor’s distributed hash table.
+fingerprint to manipulate Tor's distributed hash table.
 
-#### Packet Size Analysis Attack {#sub:distinguished}
+#### Packet Size Analysis Attack
 
 In 2011 a low-cost technique that distinguishes Tor traffic from non-Tor
 encrypted (HTTPS) traffic was published [[14]](#14). For this
@@ -1446,7 +1447,7 @@ In 2009, Y. Zhang published a paper for an attack on the Tor
 Authentication Protocol (TAP) if a user has multiple concurrent sessions
 [[151]](#151) of TAP running.
 
-The TAP forms the basis of Tor’s security and is used to negotiate
+The TAP forms the basis of Tor's security and is used to negotiate
 session keys between a user and the ORs in a circuit. A vulnerability
 was discovered if a user runs multiple concurrent sessions of TAP.
 
@@ -1458,7 +1459,7 @@ session keys between the user and the non-malicious OR $B$. While this
 attack does no direct harm, it violates the original object of the TAP
 protocol.
 
-Revealing Hidden Services
+4.7 - Revealing Hidden Services
 -------------------------
 
 It might be interesting for an attacker to reveal a hidden service. This
@@ -1468,12 +1469,12 @@ research papers that describe ways to reveal hidden services.
 
 #### First Node Attack
 
-In the first paper that aims to reveal hidden services the attackers’
+In the first paper that aims to reveal hidden services the attackers'
 relays try to become the relay in a circuit that is directly connected
-to the hidden service’s server [[95]](#95). This would immediately
+to the hidden service's server [[95]](#95). This would immediately
 reveal the location of the hidden service to that node.
 
-To become the first node from the hidden service’s server in a circuit,
+To become the first node from the hidden service's server in a circuit,
 the attacker needs a malicious node and a client that connects to a
 hidden service. The client will connect to the hidden service and send a
 certain timing pattern in the communication. If the malicious node is on
@@ -1482,7 +1483,7 @@ IP-addresses of all nodes until the rendezvous point, the malicious node
 can detect whether it is one of those nodes. Usually, there are three
 nodes between the Rendezvous point and the Hidden Service. If the
 malicious node is next to the rendezvous point, this can be detected,
-since the rendezvous point’s IP-address is known by the attacker. If the
+since the rendezvous point's IP-address is known by the attacker. If the
 malicious node is in the circuit, but not next to the rendezvous point
 or between the rendezvous point and the client, it has to be first or
 the second node after the hidden service. By using timing analysis the
@@ -1514,7 +1515,7 @@ that are received from the hidden service. By comparing the timestamps
 from all the candidate servers with their sample they can detect a
 matching clock skew. This reveals the location of the hidden service.
 
-Attack Detection
+5 - Attack Detection
 ================
 
 Many papers describe attacks, but give no way to detect or expose them.
@@ -1523,12 +1524,12 @@ how malicious exit relays can be exposed for many common kinds of
 attacks. Two tools were developed, one to detect active attacks and the
 other for detecting credential sniffing.
 
-The ’man in the middle’ in Tor circuits are the exit nodes. There the
+The 'man in the middle' in Tor circuits are the exit nodes. There the
 final layer of encryption is removed and the traffic is sent to its
 actual destination. This allows the owner of this exit node to see and
 even actively modify the traffic. This is often used to exploit
 vulnerabilities in order to make the connection insecure or inserting
-malicious code in web pages. The tool ’exitmap’ can detect popular MitM
+malicious code in web pages. The tool 'exitmap' can detect popular MitM
 attacks. It runs on a single machine and asynchronously creates circuits
 with a set of exit relays as end points. Most detection methods work by
 comparing the fingerprint of a certificate fetched through Tor with the
@@ -1538,18 +1539,18 @@ and DNS query censoring.
 
 Credential sniffing is a passive MitM attack. Rather than actively
 modifying traffic it simply looks for credentials in the traffic. The
-other tool, ’HoneyConnector’, can detect credential sniffing. It creates
+other tool, 'HoneyConnector', can detect credential sniffing. It creates
 bait connections over Tor using randomly generated unique credentials
 over FTP and IMAP. By monitoring which accounts were accessed, the
 malicious exit relay that was sent a unique account could be identified
 and exposed.
 
 Over a period of several months, all exit relays ($\sim$ 950 at the
-time) were monitored. Using ’exitmap’, 40 malicious exit relays were
-identified. Using modified FTP and IMAP servers, ’HoneyConnector’ was
+time) were monitored. Using 'exitmap', 40 malicious exit relays were
+identified. Using modified FTP and IMAP servers, 'HoneyConnector' was
 deployed on multiple hosting providers. A total of 255 login attempts
 were made tracing back to 27 sniffing relays, only two of which were
-also caught by ’exitmap’.
+also caught by 'exitmap'.
 
 While it is possible for the Tor project to blacklist certain relays as
 exit relays, since most attackers do not publish contact information or
@@ -1559,7 +1560,7 @@ notice that their relay is blacklisted. Therefore, a patch for the
 TorButton extension of the TorBrowser was developed to detect some
 attacks automatically for regular users.
 
-Attacks and Countermeasures
+6 - Attacks and Countermeasures
 ===========================
 
 To defend against the threat posed by de-anonymizing attacks, there have
@@ -1624,7 +1625,7 @@ Moreover, the trade-off between security and performance need to be
 taken into account to provide an overall and secure solution to various
 attacks [[22]](#22).
 
-Ethical Vulnerabilities of Tor
+7 - Ethical Vulnerabilities of Tor
 ==============================
 
 Tor has been proven to be used for real evil content. We consider this
@@ -1635,7 +1636,7 @@ that al-Qaeda and other terrorist organizations are using the Tor
 network to propagate their causes [[34]](#34). Due to this illegal content,
 Tor does not have an unquestionable moral high ground.
 
-Values and Principles of Tor
+7.1 - Values and Principles of Tor
 ----------------------------
 
 As explained on the Tor Project website, the Tor Project is based on the
@@ -1644,28 +1645,28 @@ freedom of speech and the right to privacy [[39]](#39)2. This makes Tor
 a powerful tool for many morally right uses. The Tor network empowers
 freedom of speech to those living under repressive governments and in
 countries with restrictions on Internet [[121]](#121). Countries like
-China are known for censoring their citizens’ access to the Internet;
+China are known for censoring their citizens' access to the Internet;
 Tor provides a way around this control [[128]](#128). For informers, Tor
 provides a safe way to leak information to journalists. In fact, Edward
-Snowden released information on the NSA’s PRISM program to news
+Snowden released information on the NSA's PRISM program to news
 organizations via Tor [[93]](#93) [[109]](#109). However, the
 values and principles of Tor also introduce some ethical issues that
 will be looked into more closely next.
 
-Tor and Criminal Behaviour
+7.2 - Tor and Criminal Behaviour
 --------------------------
 
 Nowadays, freedom is one of the keywords of the internet. How far should
 this freedom go? Should we allow Tor users to perform illegal activities
 with a small chance of being convicted? The type of actions we are
 encouraging by providing anonymization services should be handled very
-carefully. This makes it necessary to reflect on the impact that Tor’s
+carefully. This makes it necessary to reflect on the impact that Tor's
 freedom has on its users [[32]](#32).
 
 Tor lets people with evil intentions provide and use illegal services in
 a relatively secure way, meaning that it is not easy to trace the source
 of an illegal service and the location of the users of the service.
-Illegal activities can be hidden using Tor’s hidden service protocol
+Illegal activities can be hidden using Tor's hidden service protocol
 [[124]](#124). This makes them only accessible via the Tor network and
 they do not get indexed like the rest of the Internet. Among the hidden
 services of Tor are drug marketplaces, weapon marketplaces, contract
@@ -1678,17 +1679,17 @@ Bitcoin generation [[59]](#59). This suggests that a lot of servers that
 host hidden services are part of "SkyNet".
 
 The fact that Tor allows all kinds of communities to grow makes many Tor
-users uneasy. It may even undermine the network’s user base since the
+users uneasy. It may even undermine the network's user base since the
 criminal activities on Tor might prevent potential users from using Tor.
 Merely using Tor can make you an attractive target for the government,
 even if you only use the service for legal purposes [[93]](#93).
 Because of this, users might worry to be associated with these illegal
 activities and therefore decide not to use Tor. As one of our team
-members noted on Tor during a discussion: “I would not use it at home.”
+members noted on Tor during a discussion: "I would not use it at home."
 Innocent users do not want to be generalized with people that use Tor
 for illegal purposes.
 
-The Dark Web: from Snowden to Silk Road
+7.3 - The Dark Web: from Snowden to Silk Road
 ---------------------------------------
 
 Not all hidden services remain hidden. Silk Road is a well-known example
@@ -1701,24 +1702,24 @@ that this story is not true [[55]](#55) [[33]](#33). According to them, the
 FBI was able to locate the Silk Road servers by accessing a PHPmyadmin
 configuration file. Access to the configuration file would have been
 gained by password sniffing [[55]](#55) [[33]](#33). More recently, in 2015
-the FBI was able to seize the servers of “Playpen”, a bulletin board
+the FBI was able to seize the servers of "Playpen", a bulletin board
 that was used to distribute child pornography [[107]](#107). The FBI then ran
 the service for two weeks after exposure but included identification
-software and were able to identify 1500 users of “Playpen”. This case
+software and were able to identify 1500 users of "Playpen". This case
 started the debate whether government organizations are allowed to hack
 Tor users in order to identify them [[18]](#18).
 
 In 2013 former NSA contractor Edward Snowden released thousands of
 classified NSA documents on their PRISM Program to news organizations
 via Tor [[93]](#93) [[109]](#109). The PRISM Program is the
-NSA’s surveillance program to track online communication for which they
+NSA's surveillance program to track online communication for which they
 tapped many Internet users and nine internet firms, including Facebook,
 Google, Microsoft and Yahoo [[81]](#81). The documents that
 Snowden leaked revealed that Tor users have also been targeted by the
-NSA for years. In a presentation acquired by Snowden titled “Tor
-Stinks”, the NSA admits that it will “never be able to de-anonymize all
-Tor users all the time” [[70]](#70). The files exposed the
-organization’s struggles with deciphering emails and encrypted chat logs
+NSA for years. In a presentation acquired by Snowden titled "Tor
+Stinks", the NSA admits that it will "never be able to de-anonymize all
+Tor users all the time" [[70]](#70). The files exposed the
+organization's struggles with deciphering emails and encrypted chat logs
 on Tor, despite its abilities to hack into online communication systems.
 Snowden was charged with two counts of violating the Espionage Act and
 theft of US Government property [[49]](#49). On June 21, 2013, the
@@ -1727,18 +1728,18 @@ exception for political offenses. A subject of controversy, Snowden has
 been called a hero and a traitor by the public [[25]](#25). His actions
 have triggered debates over mass surveillance and the tension between
 national security and privacy. But that is exactly what Snowden aimed
-for: “I didn’t want to change society. I wanted to give society a chance
+for: "I didn't want to change society. I wanted to give society a chance
 to determine if it should change itself. All I wanted was for the public
 to be able to have a say in how they are governed." [[53]](#53)
 Snowden has always publicly supported Tor. According to him Tor is a
-critical technology in defense of our publication right. “The design of
+critical technology in defense of our publication right. "The design of
 the Tor system is structured in such a way that even if the US
-Government wanted to subvert it, it couldn’t because it’s a
+Government wanted to subvert it, it couldn't because it's a
 decentralized authority [[99]](#99)." Whether government organizations
 are allowed to use identification software on Tor and the consequences
-this has for Tor users is discussed in Paragraph \[sub:rethinkprivacy\].
+this has for Tor users is discussed in Paragraph [7.5](#tor-and-violations-of-privacy).
 
-Tor and Informed Consent
+7.4 - Tor and Informed Consent
 ------------------------
 
 There is a major ethical issue going along with the principle of freedom
@@ -1746,7 +1747,7 @@ of speech: uninformed consent of the Tor users [[121]](#121). In reality
 most users have no knowledge of what is being downloaded by their
 connection on the Tor network. It could include the illegal activities
 of someone else on the network. This is a major problem with the
-Darknet: the user’s nodes will often be used for the propagation of data
+Darknet: the user's nodes will often be used for the propagation of data
 that the majority do not approve of [[128]](#128). The idea of any depravity
 or illegality being routed through or being stored on your system makes
 many users uneasy. The counter side of a liberal view towards freedom of
@@ -1754,14 +1755,14 @@ information and speech is that you cannot choose what to approve. There
 is enough criminal behavior on Tor that most users want no part in
 proliferating. Should society give up its standards for anonymity?
 
-Tor and Violations of Privacy {#sub:rethinkprivacy}
+7.5 - Tor and Violations of Privacy
 -----------------------------
 
 From a technical perspective Tor can provide a high level of privacy.
 However, privacy might be reduced as Tor users are outlawed by the
-government. Can the government intrude the Tor network and its users’
+government. Can the government intrude the Tor network and its users'
 computers to retrieve information about hidden services? This would also
-be an intrusion of Tor user’s privacy. What makes the Silk Road case
+be an intrusion of Tor user's privacy. What makes the Silk Road case
 interesting, is the discussion whether the privacy of Mr. Ulbricht has
 been violated during the exposure of Silk Road.
 
@@ -1770,7 +1771,7 @@ violating the right of privacy by the fourth amendment of their client
 when the FBI accessed his servers in Iceland [[133]](#133). The
 fourth amendment ensures the privacy of every American citizen
 [[50]](#50). According to the judge the FBI did not violate Mr.
-Ulbricht’s fourth amendment right of privacy by hacking his servers in
+Ulbricht's fourth amendment right of privacy by hacking his servers in
 Iceland [[58]](#58). The judge argued that Mr. Ulbricht had not
 timely shown that the servers belonged to him. However, if Mr. Ulbricht
 would have shown that the servers were his, this might get him a
@@ -1800,28 +1801,28 @@ use by governments or other third parties, for example by not protecting
 data sent over Tor by the fourth amendment, are labeled as *lawyer-based
 attacks*.
 
-Illegality as a Consequence
+7.6 - Illegality as a Consequence
 ---------------------------
 
 Balancing the ethical and moral uses of Tor against the opportunity for
-misuse by criminals poses the question ’Should users be allowed to be
-anonymous online?’. It is important to note that criminal activity on
-Tor is a consequence, not a goal, of the network’s commitment to freedom
+misuse by criminals poses the question 'Should users be allowed to be
+anonymous online?'. It is important to note that criminal activity on
+Tor is a consequence, not a goal, of the network's commitment to freedom
 of speech. Just as large, growing cities attract criminals, it is
 unavoidable that the growth of Tor has made the network appealing for
 shady activities [[93]](#93). Therefore the use of Tor should be
 regulated in cooperation with law enforcement agencies. Some hidden
 services are immoral and should be punished, just like they would be in
-‘the real world’. And if that would not be the case anymore, if Tor
+‘the real world'. And if that would not be the case anymore, if Tor
 would become a platform that does not make any judgments of its use, how
 do we then judge the acts of a Tor volunteer?
 
-Financial Vulnerabilities of Tor
+8 - Financial Vulnerabilities of Tor
 ================================
 
 The Tor network is suffering from continuous starvation. While they have
 a loyal fan-base, they have no business model and no devoted Tor
-developers to rely on. In the last two years Tor’s annual revenue was
+developers to rely on. In the last two years Tor's annual revenue was
 reported holding steady at about $2.5$ million [[127]](#127). This
 is a moderate budget considering the number of Internet users involved
 in the network and the impact they have. Since 2012 the Tor network
@@ -1830,11 +1831,11 @@ relays [[126]](#126). This year Tor reported to support about 20
 contractors and to have a user base that is up to several million people
 each day [[127]](#127).
 
-Aside from their donation campaign, Tor’s services are made possible by
+Aside from their donation campaign, Tor's services are made possible by
 more than 7,000 volunteers running as relay operators and by the huge
 amount of analysis Tor gets from research groups and individual
 programmers [[127]](#127). This constant peer review has become one
-of their strengths over the past years. As a result, the network’s
+of their strengths over the past years. As a result, the network's
 success and continuity mainly depends on the thousands of financial and
 non-financial volunteers that contribute to everything from system
 administration to global outreach and education [[126]](#126)2. Tor
@@ -1844,9 +1845,9 @@ of money. Therefore the more significant concerns are around global
 outreach, the social dynamics within the Tor community and collaborative
 practices.
 
-The network’s security and effectiveness may be harmed by the lack of
+The network's security and effectiveness may be harmed by the lack of
 staff and continuous code integration. In order to prevent this, a pile
-of the network’s features need to be researched, implemented and
+of the network's features need to be researched, implemented and
 deployed on a voluntary basis [[11]](#11):
 
 -   Hidden Service operators need to be made aware of the shortcomings
@@ -1855,21 +1856,21 @@ deployed on a voluntary basis [[11]](#11):
 
 -   Researchers need to be introduced to various research topics and
     questions regarding anonymous communication services to stimulate
-    further research in Tor’s protocol, cryptography and the mechanisms
+    further research in Tor's protocol, cryptography and the mechanisms
     of countermeasures against de-anonymizing attacks.
 
 -   Software developers need to be introduced to the pile of coding
-    tasks left to be done and the issues that involve Tor’s codebase.
+    tasks left to be done and the issues that involve Tor's codebase.
 
-The statements above only touch issues that involve Tor’s codebase or
+The statements above only touch issues that involve Tor's codebase or
 its security, but if Tor wants to be truly successful and influential it
 is also essential to build a dynamic ecosystem around the network.
 Extensions like privacy-preserving archiving systems, anonymous file
 sharing, easy-to-use publishing platforms and chat systems would give a
-boost to the network’s growth and its institutional funding
+boost to the network's growth and its institutional funding
 [[11]](#11).
 
-Conclusion
+9 - Conclusion
 ==========
 
 In this survey, we analyzed the technical, ethical and financial
@@ -1889,7 +1890,7 @@ are applied in these categories are based on the concepts of traffic
 analysis, traffic confirmation and forgery of node identities. With
 traffic analysis an adversary simply observes inputs and outputs of the
 network and correlates their timing patterns. The attacker distinguishes
-data flow patterns from normal traffic caused by Tor’s encryption.
+data flow patterns from normal traffic caused by Tor's encryption.
 Similarly, with traffic confirmation an attacker uses the weaknesses of
 the constructed Tor nodes and other related services to control or
 observe the relays of both ends of a Tor circuit. Then he analyzes
@@ -1942,7 +1943,7 @@ This has caused lawyer-based attacks and adjustments on the fourth
 amendment to be a point of discussion. The ethical issues also raise
 questions about the privacy of Tor. Do these issues justify third
 parties to hack Tor and pose a threat to its privacy in the name of the
-public good? Illegality is a consequence, not a goal, of the network’s
+public good? Illegality is a consequence, not a goal, of the network's
 commitment to freedom of speech. Therefore the services provided by Tor
 need to be regulated and controlled in cooperation with government
 organizations to guarantee safety and justice in the cyber world.
@@ -1950,19 +1951,18 @@ organizations to guarantee safety and justice in the cyber world.
 #### Financial Vulnerabilities
 
 The Tor project deals with financial insecurities and continuous
-resource starvation because of lack of a business model. The network’s
+resource starvation because of lack of a business model. The network's
 success and continuity mainly depend on the thousands of financial and
 non-financial volunteers. To ensure the security and effectiveness of
-Tor in the future, the network’s features need to be researched,
+Tor in the future, the network's features need to be researched,
 implemented and deployed on a voluntary basis. Hidden Service operators
 and developers need to be made aware of the shortcomings of the Tor
 architecture and researchers need to be introduced to various research
 questions regarding anonymous communication services. This way further
 research and development can be stimulated to create a dynamic ecosystem
-around Tor and to boost the network’s growth and institutional funding.
+around Tor and to boost the network's growth and institutional funding.
 
 # References
-
 
 <a id="1">[1]</a> Timothy G Abbott et al. "Browser-based attacks on Tor". In: Privacy Enhancing Technologies. Springer. 2007, pp. 184-199.
 
