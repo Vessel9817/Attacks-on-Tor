@@ -869,9 +869,9 @@ this technique can lead to the discovery of all ORs on the path from
 client to server. One can imagine that using more corrupt ORs for
 probing the legitimate ORs leads to faster results.
 
-![The latency of the cells varies more during the congestion attack, compared to the control measurements.](https://user-images.githubusercontent.com/5946444/68077101-4719d680-fdbe-11e9-8f37-451c1b5023dd.png)
+<a id="figure.7">![The latency of the cells varies more during the congestion attack, compared to the control measurements.](https://user-images.githubusercontent.com/5946444/68077101-4719d680-fdbe-11e9-8f37-451c1b5023dd.png)</a>
 
-*The latency of the cells varies more during the congestion attack, compared to the control measurements.*
+*The latency of the cells varies more during the congestion attack, compared to the control measurements [[46]](#46).*
 
 There is one additional use of this attack that is worth mentioning.
 When the ORs on the circuits of two different streams have been
@@ -1072,9 +1072,9 @@ Fourth and last, when the AS containing the OP of the client has been
 found, the final part of the path can be traced using the same
 technique, only this time using the more specific internal AS map.
 
-![Attacker investigating the fluctuations in available bandwidth of ORs participating in a Tor circuit](https://user-images.githubusercontent.com/5946444/68077112-79c3cf00-fdbe-11e9-8b0c-910572eda7de.png)
+<a id="figure.8">![Attacker investigating the fluctuations in available bandwidth of ORs participating in a Tor circuit](https://user-images.githubusercontent.com/5946444/68077112-79c3cf00-fdbe-11e9-8b0c-910572eda7de.png)</a>
 
-*Attacker investigating the fluctuations in available bandwidth of ORs participating in a Tor circuit*
+*Attacker investigating the fluctuations in available bandwidth of ORs participating in a Tor circuit [[27]](#27)*
 
 Chakravarty et al. tested the attack in an emulated environment, an
 in-lab experiment and on the real Tor network. They executed the attack
@@ -1219,30 +1219,30 @@ botnets. These solutions mostly serve to encourage more research in this
 area. In particular, four technical approaches are described, each with
 its own challenges:
 
--   Resource based throttling: This solution aims to limit the rate of
-    requests from the botnet by making it costly to build circuits,
-    either economically (e.g. paying bitcoins) or computationally (e.g.
-    solving a puzzle). This solution fulfills its purpose but also
-    inconveniences normal Tor users.
+- Resource based throttling: This solution aims to limit the rate of
+  requests from the botnet by making it costly to build circuits,
+  either economically (e.g. paying bitcoins) or computationally (e.g.
+  solving a puzzle). This solution fulfills its purpose but also
+  inconveniences normal Tor users.
 
--   Guard node throttling: When a client connects to the Tor network, it
-    first starts a key exchange at a guard node. By limiting the rate
-    that guard nodes accept connection requests, it does not prevent
-    bots from flooding the network but makes it ineffective to run a
-    botnet C&C via Tor. This could be a valid solution if other
-    verifiable services that require a high rate can request permission
-    for a higher connection rate.
+- Guard node throttling: When a client connects to the Tor network, it
+  first starts a key exchange at a guard node. By limiting the rate
+  that guard nodes accept connection requests, it does not prevent
+  bots from flooding the network but makes it ineffective to run a
+  botnet C&C via Tor. This could be a valid solution if other
+  verifiable services that require a high rate can request permission
+  for a higher connection rate.
 
--   Reuse of failed partial circuits: When a circuit times out, it is
-    destroyed entirely. By reusing partially built circuits a
-    substantial reduction in load for the network can be accomplished if
-    the failure rate of creating a circuit is high enough.
+- Reuse of failed partial circuits: When a circuit times out, it is
+  destroyed entirely. By reusing partially built circuits a
+  substantial reduction in load for the network can be accomplished if
+  the failure rate of creating a circuit is high enough.
 
--   Hidden service isolation: By isolating the processing of hidden
-    service traffic from ordinary traffic, regular users can be
-    protected from this kind of attack. This could work by introducing
-    new cell types to recognize the type of traffic. It does however
-    intensify the effect for legitimate hidden services.
+- Hidden service isolation: By isolating the processing of hidden
+  service traffic from ordinary traffic, regular users can be
+  protected from this kind of attack. This could work by introducing
+  new cell types to recognize the type of traffic. It does however
+  intensify the effect for legitimate hidden services.
 
 #### The Sniper Attack
 
@@ -1270,7 +1270,7 @@ received packets and once this window is full, the receiver sends a
 SENDME cell to the exit relay causing the exit relay to increase the
 package window counters and to restart the transmitting process.
 
-![Basic idea of the Sniper Attack: (a) The client creates a circuit with the target as entry. (b) The exit sends data through the circuit, ignoring package window limits. (c) The client stops reading from the TCP stream to the target entry. (d) The target entry buffers the data until termination of the Tor process by the OS.](https://user-images.githubusercontent.com/5946444/68077120-96f89d80-fdbe-11e9-9bf7-0cd7d48a8486.png)
+<a id="figure.9">![Basic idea of the Sniper Attack: (a) The client creates a circuit with the target as entry. (b) The exit sends data through the circuit, ignoring package window limits. (c) The client stops reading from the TCP stream to the target entry. (d) The target entry buffers the data until termination of the Tor process by the OS.](https://user-images.githubusercontent.com/5946444/68077120-96f89d80-fdbe-11e9-9bf7-0cd7d48a8486.png)</a>
 
 *Basic idea of the Sniper Attack: (a) The client creates a circuit with the target as entry. (b) The exit sends data through the circuit, ignoring package window limits. (c) The client stops reading from the TCP stream to the target entry. (d) The target entry buffers the data until termination of the Tor process by the OS.*
 
