@@ -1360,7 +1360,7 @@ non-selected guard nodes is chosen to be included in the guard list. The
 chance that a guard node is included in the guard list is bigger for
 long-running or high bandwidth nodes.
 
-A paper published in 2015 introduces an attack that aims to shorten the
+A paper published in 2015 introduces an attack that aims to shorten
 the time interval between guard selection rounds [[76]](#76).
 Assumed is that the attacker controls multiple guard nodes. The attacker
 should also be able to identify and manipulate Tor traffic between the
@@ -1378,7 +1378,7 @@ of the malicious guard nodes to be included in the guard list. This
 process continues until a malicious guard node is included in the guard
 list. Experiments confirm that in 80% of the cases a malicious guard
 node is included in the guard list within 20 guard selection rounds.
-Experiments also show that this attack forces an new guard selection
+Experiments also show that this attack forces a new guard selection
 round every 1.5 minutes. This would include a malicious guard node into
 the client's guard list within 30 minutes.
 
@@ -1411,15 +1411,15 @@ problem can be exploited by adding malicious relays and strategically
 affecting the reliability of anonymous communications to increase the
 odds of an adversary compromising user anonymity [[6]](#6).
 
-![Setup of Sybil attack: two datasets as input to the attacker, consensus and server descriptors; malicious relays together with the exitmap](https://user-images.githubusercontent.com/5946444/68077124-af68b800-fdbe-11e9-9a54-280bccd8d0ac.png)
+<a id="figure.10">![Setup of Sybil attack: two datasets as input to the attacker, consensus and server descriptors; malicious relays together with the exitmap](https://user-images.githubusercontent.com/5946444/68077124-af68b800-fdbe-11e9-9a54-280bccd8d0ac.png)</a>
 
-*Setup of Sybil attack: two datasets as input to the attacker, consensus and server descriptors; malicious relays together with the exitmap.*
+*Figure 10: Setup of Sybil attack: two datasets as input to the attacker, consensus and server descriptors; malicious relays together with the exitmap [[100]](#100).*
 
 Practical defenses against Sybil attacks are challenging, these attacks
 will probably always be possible in anonymity networks without a central
 authority [[100]](#100). However, since Sybil relays typically behave
 and appear similarly, there are some heuristics that can be used to
-detect a Sybil attack to some extends. Relays that are part of a Sybil
+detect a Sybil attack to some extents. Relays that are part of a Sybil
 attack often join and leave the network simultaneously, they have common
 configuration parameters, and may frequently change their identity
 fingerprint to manipulate Tor's distributed hash table.
@@ -1521,8 +1521,8 @@ matching clock skew. This reveals the location of the hidden service.
 Many papers describe attacks, but give no way to detect or expose them.
 A paper by Winter et al. [[143]](#143) published in 2014 describes
 how malicious exit relays can be exposed for many common kinds of
-attacks. Two tools were developed, one to detect active attacks and the
-other for detecting credential sniffing.
+attacks. Two tools were developed, one to detect active Man in the Middle
+(MitM) attacks and the other for detecting credential sniffing.
 
 The 'man in the middle' in Tor circuits are the exit nodes. There the
 final layer of encryption is removed and the traffic is sent to its
@@ -1621,7 +1621,7 @@ From the description of the various countermeasures, we can conclude
 that there is an increasing need for hybrid techniques that can be
 deployed at multiple layers simultaneously [[148]](#148). This
 way various attacks of different types can be obstructed effectively.
-Moreover, the trade-off between security and performance need to be
+Moreover, the trade-offs between security and performance need to be
 taken into account to provide an overall and secure solution to various
 attacks [[22]](#22).
 
@@ -1641,7 +1641,7 @@ Tor does not have an unquestionable moral high ground.
 
 As explained on the Tor Project website, the Tor Project is based on the
 values and principles of net neutrality, right to anonymity online,
-freedom of speech and the right to privacy [[39]](#39)2. This makes Tor
+freedom of speech and the right to privacy [[129]](#129). This makes Tor
 a powerful tool for many morally right uses. The Tor network empowers
 freedom of speech to those living under repressive governments and in
 countries with restrictions on Internet [[121]](#121). Countries like
@@ -1737,7 +1737,8 @@ the Tor system is structured in such a way that even if the US
 Government wanted to subvert it, it couldn't because it's a
 decentralized authority [[99]](#99)." Whether government organizations
 are allowed to use identification software on Tor and the consequences
-this has for Tor users is discussed in Paragraph [7.5](#tor-and-violations-of-privacy).
+this has for Tor users is discussed in Paragraph
+[7.5](#75---tor-and-violations-of-privacy).
 
 7.4 - Tor and Informed Consent
 ------------------------
@@ -1838,7 +1839,7 @@ programmers [[127]](#127). This constant peer review has become one
 of their strengths over the past years. As a result, the network's
 success and continuity mainly depends on the thousands of financial and
 non-financial volunteers that contribute to everything from system
-administration to global outreach and education [[126]](#126)2. Tor
+administration to global outreach and education [[125]](#125). Tor
 survives because of grants from foundations and individuals, but the
 important contributions are time, research and user commitment, instead
 of money. Therefore the more significant concerns are around global
@@ -1850,17 +1851,17 @@ staff and continuous code integration. In order to prevent this, a pile
 of the network's features need to be researched, implemented and
 deployed on a voluntary basis [[11]](#11):
 
--   Hidden Service operators need to be made aware of the shortcomings
-    of the Tor architecture in order to solve scaling issues and to
-    improve its security.
+- Hidden Service operators need to be made aware of the shortcomings
+  of the Tor architecture in order to solve scaling issues and to
+  improve its security.
 
--   Researchers need to be introduced to various research topics and
-    questions regarding anonymous communication services to stimulate
-    further research in Tor's protocol, cryptography and the mechanisms
-    of countermeasures against de-anonymizing attacks.
+- Researchers need to be introduced to various research topics and
+  questions regarding anonymous communication services to stimulate
+  further research in Tor's protocol, cryptography and the mechanisms
+  of countermeasures against de-anonymizing attacks.
 
--   Software developers need to be introduced to the pile of coding
-    tasks left to be done and the issues that involve Tor's codebase.
+- Software developers need to be introduced to the pile of coding
+  tasks left to be done and the issues that involve Tor's codebase.
 
 The statements above only touch issues that involve Tor's codebase or
 its security, but if Tor wants to be truly successful and influential it
